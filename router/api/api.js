@@ -1,4 +1,5 @@
 const express = require("express");
+
 const router = express.Router();
 const mysql = require("mysql");
 const dbinfo = require("../../db/init.js");
@@ -24,9 +25,9 @@ router.post("/logout", async (req, res) => {
 });
 
 router.post("/:alias", async (req, res) => {
-  if (!req.session.email) {
-    return res.status(401).send({ error: "you need to login!" });
-  }
+  //if (!req.session.email) {
+  //  return res.status(401).send({ error: "you need to login!" });
+  //}
   try {
     const result = await requestSql.db(req.params.alias);
     console.log(typeof result);

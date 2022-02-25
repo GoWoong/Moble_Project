@@ -1,6 +1,11 @@
-module.exports = {
+require("dotenv").config();
+
+const dbinfo = {
   host: "localhost",
-  user: "root",
-  password: "Kojaeong10!@",
-  database: "product_db",
+  user: process.env.DATABASE_USERNAME,
+  password: process.env.DATABASE_PASSWORD,
+  database: process.env.DATABASE_NAME,
+  port: 3306,
 };
+
+module.exports = dbinfo;
