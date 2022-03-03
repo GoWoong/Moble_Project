@@ -1,8 +1,15 @@
-const testCtrl = require("../controllers/testCtrl")
 const router = require("express").Router();
+const connection = require("../dbConfig");
 
-router.route('/')
-.get(testCtrl.gettests)
-.post(testCtrl.inserttest)
+router.post("/", async (req, res) => {
+  var io = req.app.get("socketio");
+  const { data1, data2, data3, data4 } = req.body;
+  const sql = `SELECT company_name, Product_name, price FROM code_info where company = ${data2} and product = ${data3}`;
+  let result = connection.query(sql, (error, rows) => {
+    if (error) throw error;
+    io.emit("sendCode", rows);
+    res.send(rows);
+  });
+});
 
-module.exports=router
+module.exports = router;

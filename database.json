@@ -1,7 +1,7 @@
 {
-    "host" : "localhost",
-    "user" : "root",
-    "password" : "6890",
-    "port" : "3306",
-    "database" : "datatest"
+  "host": "3.37.213.102",
+  "user": "CS24",
+  "password": "CS24!@",
+  "port": "3306",
+  "database": "product_db"
 }

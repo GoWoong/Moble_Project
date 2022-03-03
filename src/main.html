@@ -59,15 +59,12 @@
           border: solid 3px;
         "
       >
-        <ul class="list-group list-group-flush">
-          <li class="list-group-item">An item</li>
-          <li class="list-group-item">A second item</li>
-          <li class="list-group-item">A third item</li>
-        </ul>
+        <ul id="info" class="list-group list-group-flush"></ul>
       </div>
     </div>
     <div style="margin-top: 40rem; float: right; margin-right: 5rem">
       <button
+        id="postdata"
         type="button"
         class="btn-lg btn-outline-secondary"
         style="margin-left: 50px"
@@ -83,5 +80,7 @@
       integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
       crossorigin="anonymous"
     ></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/js/index.js"></script>
   </body>
 </html>
