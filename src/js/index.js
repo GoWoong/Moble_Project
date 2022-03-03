@@ -2,6 +2,9 @@
 var socket = io("http://localhost:4000");
 var productList = [];
 const tag = document.querySelector("#info");
+socket.on("connect", () => {
+  console.log("connected server");
+});
 socket.on("sendCode", (data) => {
   const product = {
     companyName: data[0].company_name,
