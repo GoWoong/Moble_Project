@@ -1,8 +1,5 @@
 const router = require("express").Router();
 const connection = require("../dbConfig");
-const cors = require("cors");
-
-router.use("/", cors());
 
 router.post("/", async (req, res) => {
   var io = req.app.get("socketio");

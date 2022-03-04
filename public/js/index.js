@@ -23,5 +23,5 @@ postdata.addEventListener("click", () => {
   tag.innerHTML = "";
   socket.emit("sendList", productList);
   productList = [];
-  console.log(productList);
+  console.log("전송완료");
 });
