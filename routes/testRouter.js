@@ -7,7 +7,7 @@ router.post("/", async (req, res) => {
   connection.query(sql, (error, rows) => {
     if (error) throw error;
     io.emit("sendCode", rows);
-    res.send(rows);
+    res.send("ok");
   });
 });
 

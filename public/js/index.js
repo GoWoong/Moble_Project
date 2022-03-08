@@ -2,8 +2,9 @@
 var socket = io("http://localhost:4000");
 var productList = [];
 const tag = document.querySelector("#info");
-var count = 0;
+var overlap = 0;
 var countProduct = {};
+var product_Number = 1;
 var getProperty = function (propertyName) {
   return countProduct[propertyName];
 };
@@ -29,23 +30,27 @@ socket.on("sendCode", (data) => {
       }, ${data[0].Product_name}, ${data[0].price}, ${getProperty(
         data[0].Product_name
       )}</li>`;
+    product.productNumber = product_Number;
     product.productCount = 1;
     productList.push(product);
   } else {
     for (let list in productList) {
       if (productList[list].productName === data[0].Product_name) {
-        count = 1;
+        overlap = 1;
+        product_Number = productList[list].productNumber;
         break;
       } else {
-        count = 0;
+        product_Number++;
+        overlap = 0;
       }
     }
-    if (count != 0) {
+    if (overlap != 0) {
       plusProperty(data[0].Product_name);
       var li = document.getElementById(`${data[0].Product_name}`);
       li.textContent = `${data[0].company_name}, ${data[0].Product_name}, ${
         data[0].price
       }, ${getProperty(data[0].Product_name)}`;
+      product.productNumber = product_Number;
       product.productCount = getProperty(data[0].Product_name);
     } else {
       countProduct[`${data[0].Product_name}`] = 1;
@@ -56,6 +61,7 @@ socket.on("sendCode", (data) => {
         }, ${data[0].Product_name}, ${data[0].price},${getProperty(
           data[0].Product_name
         )}</li>`;
+      product.productNumber = product_Number;
       product.productCount = 1;
     }
     productList.push(product);

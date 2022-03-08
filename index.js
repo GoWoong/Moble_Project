@@ -41,7 +41,7 @@ io.sockets.on("connection", (socket) => {
     let sumPrice = 0;
     sendData.forEach((product) => {
       sumPrice = sumPrice + product.price;
-      countData[product.productName] = [
+      countData[product.productNumber] = [
         product.companyName,
         product.productName,
         product.price,
