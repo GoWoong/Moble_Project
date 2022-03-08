@@ -5,9 +5,11 @@ const app = express();
 const bodyParser = require("body-parser");
 const server = http.createServer(app);
 const io = require("socket.io")(server);
-const router = require("./routes/testRouter.js");
+const custommer = require("./routes/testRouter.js");
+const manager = require("./routes/manager.js");
 const fs = require("fs");
 const helmet = require("helmet");
+const path = require("path");
 const port = 4000;
 
 server.listen(4000, () => {
@@ -30,7 +32,6 @@ app.get("/", (req, res) => {
     res.end();
   });
 });
-
 app.set("socketio", io);
 
 io.sockets.on("connection", (socket) => {
@@ -40,4 +41,5 @@ io.sockets.on("connection", (socket) => {
 });
 
 //프론트단에서
-app.use("/api/test", router);
+app.use("/api/test", custommer);
+app.use("/managerPage", manager);
