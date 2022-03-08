@@ -5,6 +5,7 @@ const tag = document.querySelector("#info");
 var overlap = 0;
 var countProduct = {};
 var product_Number = 1;
+let countData = {};
 var getProperty = function (propertyName) {
   return countProduct[propertyName];
 };
@@ -40,7 +41,6 @@ socket.on("sendCode", (data) => {
         product_Number = productList[list].productNumber;
         break;
       } else {
-        product_Number++;
         overlap = 0;
       }
     }
@@ -53,6 +53,9 @@ socket.on("sendCode", (data) => {
       product.productNumber = product_Number;
       product.productCount = getProperty(data[0].Product_name);
     } else {
+      productList.forEach((productInfo) => {
+        countData[productInfo.productName] = 1;
+      });
       countProduct[`${data[0].Product_name}`] = 1;
       tag.innerHTML =
         tag.innerHTML +
@@ -61,7 +64,7 @@ socket.on("sendCode", (data) => {
         }, ${data[0].Product_name}, ${data[0].price},${getProperty(
           data[0].Product_name
         )}</li>`;
-      product.productNumber = product_Number;
+      product.productNumber = Object.values(countData).length + 1;
       product.productCount = 1;
     }
     productList.push(product);
@@ -76,4 +79,5 @@ postdata.addEventListener("click", () => {
   productList = [];
   console.log("전송완료");
   countProduct = {};
+  countData = {};
 });

@@ -33,8 +33,7 @@ app.get("/", (req, res) => {
   });
 });
 app.set("socketio", io);
-
-io.sockets.on("connection", (socket) => {
+io.on("connection", (socket) => {
   socket.on("sendList", (data) => {
     let sendData = JSON.parse(data);
     let countData = {};
