@@ -36,7 +36,21 @@ app.set("socketio", io);
 
 io.sockets.on("connection", (socket) => {
   socket.on("sendList", (data) => {
-    console.log(data);
+    let sendData = JSON.parse(data);
+    let countData = {};
+    let sumPrice = 0;
+    sendData.forEach((product) => {
+      sumPrice = sumPrice + product.price;
+      countData[product.productName] = [
+        product.companyName,
+        product.productName,
+        product.price,
+        product.productCount,
+      ];
+    });
+    countData.allPrice = sumPrice;
+    countData.dateInfo = new Date().toLocaleString();
+    console.log(countData);
   });
 });
 

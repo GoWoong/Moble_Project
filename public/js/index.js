@@ -21,7 +21,6 @@ socket.on("sendCode", (data) => {
     price: data[0].price,
   };
   if (productList.length == 0) {
-    productList.push(product);
     countProduct[`${data[0].Product_name}`] = 1;
     tag.innerHTML =
       tag.innerHTML +
@@ -30,6 +29,8 @@ socket.on("sendCode", (data) => {
       }, ${data[0].Product_name}, ${data[0].price}, ${getProperty(
         data[0].Product_name
       )}</li>`;
+    product.productCount = 1;
+    productList.push(product);
   } else {
     for (let list in productList) {
       if (productList[list].productName === data[0].Product_name) {
@@ -39,14 +40,13 @@ socket.on("sendCode", (data) => {
         count = 0;
       }
     }
-    productList.push(product);
     if (count != 0) {
       plusProperty(data[0].Product_name);
-
       var li = document.getElementById(`${data[0].Product_name}`);
       li.textContent = `${data[0].company_name}, ${data[0].Product_name}, ${
         data[0].price
       }, ${getProperty(data[0].Product_name)}`;
+      product.productCount = getProperty(data[0].Product_name);
     } else {
       countProduct[`${data[0].Product_name}`] = 1;
       tag.innerHTML =
@@ -56,7 +56,9 @@ socket.on("sendCode", (data) => {
         }, ${data[0].Product_name}, ${data[0].price},${getProperty(
           data[0].Product_name
         )}</li>`;
+      product.productCount = 1;
     }
+    productList.push(product);
   }
 });
 
@@ -64,7 +66,7 @@ var postdata = document.getElementById("postdata");
 
 postdata.addEventListener("click", () => {
   tag.innerHTML = "";
-  socket.emit("sendList", productList);
+  socket.emit("sendList", JSON.stringify(productList));
   productList = [];
   console.log("전송완료");
   countProduct = {};
