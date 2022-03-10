@@ -19,18 +19,18 @@ socket.on("connect", () => {
 });
 socket.on("sendCode", (data) => {
   const product = {
-    companyName: data[0].company_name,
-    productName: data[0].Product_name,
+    companyName: data[0].company,
+    productName: data[0].product_name,
     price: data[0].price,
   };
   if (productList.length == 0) {
-    countProduct[`${data[0].Product_name}`] = 1;
+    countProduct[`${data[0].product_name}`] = 1;
     tag.innerHTML =
       tag.innerHTML +
-      `<li class="list-group-item" id="${data[0].Product_name}">${
-        data[0].company_name
-      }, ${data[0].Product_name}, ${data[0].price}, ${getProperty(
-        data[0].Product_name
+      `<li class="list-group-item" id="${data[0].product_name}">${
+        data[0].company
+      }, ${data[0].product_name}, ${data[0].price}, ${getProperty(
+        data[0].product_name
       )}</li>`;
     product.productNumber = product_Number;
     product.productCount = 1;
@@ -38,7 +38,7 @@ socket.on("sendCode", (data) => {
     productList.push(product);
   } else {
     for (let list in productList) {
-      if (productList[list].productName === data[0].Product_name) {
+      if (productList[list].productName === data[0].product_name) {
         overlap = 1;
         product_Number = productList[list].productNumber;
         break;
@@ -47,25 +47,25 @@ socket.on("sendCode", (data) => {
       }
     }
     if (overlap != 0) {
-      plusProperty(data[0].Product_name);
-      var li = document.getElementById(`${data[0].Product_name}`);
-      li.textContent = `${data[0].company_name}, ${data[0].Product_name}, ${
+      plusProperty(data[0].product_name);
+      var li = document.getElementById(`${data[0].product_name}`);
+      li.textContent = `${data[0].company}, ${data[0].product_name}, ${
         data[0].price
-      }, ${getProperty(data[0].Product_name)}`;
+      }, ${getProperty(data[0].product_name)}`;
       product.productNumber = product_Number;
-      product.productCount = getProperty(data[0].Product_name);
+      product.productCount = getProperty(data[0].product_name);
       sumPrice = sumPrice + product.price;
     } else {
       productList.forEach((productInfo) => {
         countData[productInfo.productName] = 1;
       });
-      countProduct[`${data[0].Product_name}`] = 1;
+      countProduct[`${data[0].product_name}`] = 1;
       tag.innerHTML =
         tag.innerHTML +
-        `<li class="list-group-item" id="${data[0].Product_name}">${
-          data[0].company_name
-        }, ${data[0].Product_name}, ${data[0].price},${getProperty(
-          data[0].Product_name
+        `<li class="list-group-item" id="${data[0].product_name}">${
+          data[0].company
+        }, ${data[0].product_name}, ${data[0].price},${getProperty(
+          data[0].product_name
         )}</li>`;
       product.productNumber = Object.values(countData).length + 1;
       product.productCount = 1;
