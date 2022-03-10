@@ -11,7 +11,7 @@ const fs = require("fs");
 const helmet = require("helmet");
 const path = require("path");
 const port = 4000;
-
+const connection = require("./dbConfig");
 server.listen(4000, () => {
   console.log("Server listening port", port);
 });
@@ -33,11 +33,13 @@ app.get("/", (req, res) => {
   });
 });
 app.set("socketio", io);
+
 io.on("connection", (socket) => {
   socket.on("sendList", (data) => {
     let sendData = JSON.parse(data);
     let countData = {};
     let sumPrice = 0;
+    let salesinfo = "";
     sendData.forEach((product) => {
       sumPrice = sumPrice + product.price;
       countData[product.productNumber] = [
@@ -47,9 +49,17 @@ io.on("connection", (socket) => {
         product.productCount,
       ];
     });
+    for (var salesdate in countData) {
+      salesinfo =
+        salesinfo + `${countData[salesdate][1]},${countData[salesdate][3]},`;
+    }
     countData.allPrice = sumPrice;
     countData.dateInfo = new Date().toLocaleString();
-    console.log(countData);
+    const sql = `INSERT INTO product_info(salesdate,salesprice,salesproduct) VALUES(now(),"${sumPrice}","${salesinfo}");`;
+    connection.query(sql, (error, rows) => {
+      if (error) throw error;
+      console.log("쿼리 완료");
+    });
   });
 });
 
