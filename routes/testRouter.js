@@ -26,7 +26,7 @@ router.post("/", async (req, res) => {
     if (isEmptyArr(rows) == true) {
       io.emit("emptyDB", "재고가 없는 물품입니다.");
     } else {
-      if (isObjEmpty(data) == true) {
+      if (isNaN(data[rows[0].product_name])) {
         data[rows[0].product_name] = 0;
       }
       data[rows[0].product_name] = data[rows[0].product_name] + 1;
