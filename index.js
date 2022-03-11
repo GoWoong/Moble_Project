@@ -5,7 +5,8 @@ const app = express();
 const bodyParser = require("body-parser");
 const server = http.createServer(app);
 const io = require("socket.io")(server);
-const custommer = require("./routes/testRouter.js");
+const custommer = require("./routes/testRouter.js").router;
+const dataReset = require("./routes/testRouter.js").dataReset;
 const manager = require("./routes/manager.js");
 const fs = require("fs");
 const helmet = require("helmet");
@@ -36,6 +37,7 @@ app.set("socketio", io);
 
 io.on("connection", (socket) => {
   socket.on("sendList", (data) => {
+    dataReset();
     let sendData = JSON.parse(data);
     let countData = {};
     let sumPrice = 0;
