@@ -7,7 +7,12 @@ router.get("/", async (req, res) => {
 });
 
 router.get("/manageProduct", async (req, res) => {
-  res.send("재고확인");
+  const sql5 = `SELECT product_name, country, company, 상품설명, 상품분류 , 원가, price, 갯수 FROM registration_db;`;
+  connection.query(sql5, async (error, rows) => {
+    if (error) throw error;
+    console.log(rows);
+    res.send(rows);
+  });
 });
 
 router.post("/registration", async (req, res) => {
@@ -53,7 +58,12 @@ router.post("/registration", async (req, res) => {
 });
 
 router.get("/sales", async (req, res) => {
-  res.send("매출확인");
+  const sql6 = `SELECT * FROM product_info;`;
+  connection.query(sql6, async (error, rows) => {
+    if (error) throw error;
+    console.log(rows);
+    res.send(rows);
+  });
 });
 
 module.exports = router;
