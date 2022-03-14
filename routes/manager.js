@@ -53,7 +53,6 @@ router.post("/registration", async (req, res) => {
       });
     }
   });
-  console.log("재품등록 완료");
   res.send("성공적으로 쿼리했습니다.");
 });
 
