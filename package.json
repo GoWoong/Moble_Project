@@ -2,9 +2,9 @@
   "name": "pj",
   "version": "1.0.0",
   "description": "",
-  "main": "app.js",
+  "main": "index.js",
   "scripts": {
-    "server": "nodemon app.js"
+    "server": "nodemon index.js"
   },
   "author": "",
   "license": "ISC",

@@ -7,6 +7,7 @@ var countProduct = {};
 var product_Number = 1;
 let countData = {};
 let sumPrice = 0;
+let marcketName = "";
 var getProperty = function (propertyName) {
   return countProduct[propertyName];
 };
@@ -89,4 +90,11 @@ postdata.addEventListener("click", () => {
   sumPrice = 0;
   let priceInfo = document.getElementById("priceInfo");
   priceInfo.textContent = `${sumPrice}`;
+});
+
+var marcket = document.getElementById("sendMarcket");
+
+marcket.addEventListener("click", () => {
+  let input = document.getElementById("nickname").value;
+  socket.emit("setMarcket", input);
 });
