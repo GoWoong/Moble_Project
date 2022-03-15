@@ -21,19 +21,51 @@
       }
       .navBar {
         background-color: aqua;
-        height: 150px;
+        height: 100px;
         margin-bottom: 100px;
+      }
+      input {
+        float: left;
+      }
+      #sales {
+        border: solid 1px black;
+        height: 35rem;
+        padding: 0px;
+      }
+      #price {
+        border: solid 1px black;
+        padding: 0px;
+      }
+      button {
+        margin-top: 20px;
+      }
+      .priceTable {
+        margin-bottom: 0px;
+        float: left;
+        width: 25%;
       }
     </style>
     <title>main-page</title>
   </head>
   <body>
-    <div class="container-fluid">
+    <div class="container-fluid contents-wrap">
       <div class="row">
-        <div class="col-lg-12 navBar"></div>
+        <div class="col-lg-12 navBar">
+          <div>
+            <form id="marcket">
+              <input id="nickname" class="name" type="text" />
+              <input
+                type="button"
+                id="sendMarcket"
+                class="chat"
+                value="marcket"
+              />
+            </form>
+          </div>
+        </div>
       </div>
       <div class="row">
-        <div class="col-lg-10">
+        <div class="col-lg-10" id="sales">
           <table class="table table-bordered">
             <thead>
               <tr>
@@ -44,21 +76,54 @@
                 <th scope="col">수량</th>
               </tr>
             </thead>
-            <tbody>
-              <tr>
-                <th scope="row">1</th>
-                <td>농심</td>
-                <td>너구리</td>
-                <td>650</td>
-                <td>2</td>
-              </tr>
-            </tbody>
+            <tbody id="info"></tbody>
           </table>
         </div>
+        <div class="col-lg-10" id="price">
+          <div class="priceTable">가격</div>
+          <div id="priceInfo" class="priceTable">0</div>
+        </div>
         <div class="col-lg-2">
-          <button type="button" class="btn btn-outline-secondary">
+          <button
+            id="postdata"
+            type="button"
+            class="btn btn-outline-secondary"
+            data-bs-toggle="modal"
+            data-bs-target="#myModal"
+          >
             Secondary
           </button>
+          <!-- The Modal -->
+          <div class="modal" id="myModal">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                  <h4 class="modal-title">결제완료</h4>
+                  <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                  ></button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">결제가 완료됬습니다.</div>
+                <div id="salesPrice"></div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                  <button
+                    type="button"
+                    class="btn btn-danger"
+                    data-bs-dismiss="modal"
+                  >
+                    Close
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -67,5 +132,7 @@
       integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
       crossorigin="anonymous"
     ></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/js/index2.js"></script>
   </body>
 </html>

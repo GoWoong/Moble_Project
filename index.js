@@ -45,7 +45,7 @@ app.use(express.static("public"));
 
 app.get("/", (req, res) => {
   res.header("Access-Control-Allow-Origin", "*");
-  fs.readFile("./public/main.html", (err, data) => {
+  fs.readFile("./public/start.html", (err, data) => {
     if (err) throw err;
     res.writeHead(200, { "Content-Type": "text/html" });
     res.write(data);
