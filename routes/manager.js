@@ -6,6 +6,10 @@ router.get("/", async (req, res) => {
   res.sendFile(path.join(__dirname, "../public/html/managerMain.html"));
 });
 
+router.get("/image", async (req, res) => {
+  //저장된 이미지들을 표현할 계획이다.
+});
+
 router.get("/manageProduct", async (req, res) => {
   const sql5 = `SELECT product_name, country, company, 상품설명, 상품분류 , 원가, price, 갯수 FROM registration_db;`;
   connection.query(sql5, async (error, rows) => {
