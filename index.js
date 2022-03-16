@@ -45,7 +45,7 @@ app.use(express.static("public"));
 
 app.get("/", (req, res) => {
   res.header("Access-Control-Allow-Origin", "*");
-  fs.readFile("./public/start.html", (err, data) => {
+  fs.readFile("./public/main.html", (err, data) => {
     if (err) throw err;
     res.writeHead(200, { "Content-Type": "text/html" });
     res.write(data);
@@ -72,11 +72,11 @@ io.on("connection", (socket) => {
     }
   });
   socket.on("disconnect", () => {
-    console.log(marcketInfo);
     marcketInfo = marcketInfo.filter(
       (item) => item[`${socket.id}`] !== socket.nickname
     );
     dataReset();
+    console.log(marcketInfo);
   });
   socket.on("sendList", (data) => {
     dataReset();

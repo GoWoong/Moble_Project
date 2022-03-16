@@ -104,9 +104,19 @@ postdata.addEventListener("click", () => {
   priceInfo.textContent = `${sumPrice}`;
 });
 
-var marcket = document.getElementById("sendMarcket");
+const showValue = (target) => {
+  const value = target.value;
+  socket.emit("setMarcket", value);
+  if (value === "") {
+    target.disabled = false;
+  } else {
+    target.disabled = true;
+  }
+};
 
-marcket.addEventListener("click", () => {
-  let input = document.getElementById("nickname").value;
-  socket.emit("setMarcket", input);
-});
+// var marcket = document.getElementById("sendMarcket");
+// marcket.addEventListener("click", () => {
+//   let input = document.getElementById("nickname");
+//   let nickname = input.options[input.selectedIndex].value;
+//   socket.emit("setMarcket", nickname);
+// });

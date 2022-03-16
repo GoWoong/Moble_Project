@@ -11,121 +11,82 @@
       crossorigin="anonymous"
     />
     <style>
-      .container-fluid {
-        width: 100%;
-        padding-right: 15px;
-        padding-left: 15px;
-        margin-right: auto;
+      .navbar-brand {
         margin-left: auto;
-        text-align: center;
-      }
-      .navBar {
-        background-color: aqua;
-        height: 100px;
-        margin-bottom: 100px;
-      }
-      input {
-        float: left;
-      }
-      #sales {
-        border: solid 1px black;
-        height: 35rem;
-        padding: 0px;
-      }
-      #price {
-        border: solid 1px black;
-        padding: 0px;
-      }
-      button {
-        margin-top: 20px;
-      }
-      .priceTable {
-        margin-bottom: 0px;
-        float: left;
-        width: 25%;
+        margin-right: auto;
       }
     </style>
     <title>main-page</title>
   </head>
   <body>
-    <div class="container-fluid contents-wrap">
-      <div class="row">
-        <div class="col-lg-12 navBar">
-          <div>
-            <form id="marcket">
-              <input id="nickname" class="name" type="text" />
-              <input
-                type="button"
-                id="sendMarcket"
-                class="chat"
-                value="marcket"
-              />
-            </form>
-          </div>
+    <div>
+      <nav
+        class="navbar navbar-light"
+        style="height: 100px; background-color: #81f79f"
+      >
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#">
+            <img
+              src=""
+              alt=""
+              width="30"
+              height="50"
+              class="d-inline-block align-text-top"
+            />
+          </a>
         </div>
+        <form id="marcket">
+          <input id="nickname" class="name" type="text" />
+          <input type="button" id="sendMarcket" class="chat" value="marcket" />
+        </form>
+      </nav>
+    </div>
+    <div style="float: left">
+      <div
+        style="
+          width: 58rem;
+          height: 3rem;
+          margin-top: 60px;
+          margin-left: 30px;
+          border: solid 3px;
+          margin-bottom: -3px;
+        "
+      >
+        상품 정보
       </div>
-      <div class="row">
-        <div class="col-lg-10" id="sales">
-          <table class="table table-bordered">
-            <thead>
-              <tr>
-                <th scope="col"></th>
-                <th scope="col">제조사</th>
-                <th scope="col">상품명</th>
-                <th scope="col">판매가</th>
-                <th scope="col">수량</th>
-              </tr>
-            </thead>
-            <tbody id="info"></tbody>
-          </table>
-        </div>
-        <div class="col-lg-10" id="price">
-          <div class="priceTable">가격</div>
-          <div id="priceInfo" class="priceTable">0</div>
-        </div>
-        <div class="col-lg-2">
-          <button
-            id="postdata"
-            type="button"
-            class="btn btn-outline-secondary"
-            data-bs-toggle="modal"
-            data-bs-target="#myModal"
-          >
-            Secondary
-          </button>
-          <!-- The Modal -->
-          <div class="modal" id="myModal">
-            <div class="modal-dialog">
-              <div class="modal-content">
-                <!-- Modal Header -->
-                <div class="modal-header">
-                  <h4 class="modal-title">결제완료</h4>
-                  <button
-                    type="button"
-                    class="btn-close"
-                    data-bs-dismiss="modal"
-                  ></button>
-                </div>
-
-                <!-- Modal body -->
-                <div class="modal-body">결제가 완료됬습니다.</div>
-                <div id="salesPrice"></div>
-
-                <!-- Modal footer -->
-                <div class="modal-footer">
-                  <button
-                    type="button"
-                    class="btn btn-danger"
-                    data-bs-dismiss="modal"
-                  >
-                    Close
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+      <div
+        class="card"
+        style="
+          width: 58rem;
+          height: 40rem;
+          margin-left: 30px;
+          border: solid 3px;
+        "
+      >
+        <ul id="info" class="list-group list-group-flush"></ul>
       </div>
+      <div
+        id="priceInfo"
+        style="
+          width: 58rem;
+          height: 3rem;
+          margin-top: -3px;
+          margin-left: 30px;
+          border: solid 3px;
+        "
+      >
+        0
+      </div>
+    </div>
+    <div style="margin-top: 40rem; float: right; margin-right: 5rem">
+      <button
+        id="postdata"
+        type="button"
+        class="btn-lg btn-outline-secondary"
+        style="margin-left: 50px"
+      >
+        결제하기
+      </button>
     </div>
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
@@ -133,6 +94,6 @@
       crossorigin="anonymous"
     ></script>
     <script src="/socket.io/socket.io.js"></script>
-    <script src="/js/index2.js"></script>
+    <script src="/js/index.js"></script>
   </body>
 </html>
