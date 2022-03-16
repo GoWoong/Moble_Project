@@ -18,6 +18,9 @@ var plusProperty = function (propertyName) {
 socket.on("connect", () => {
   console.log("connected server");
 });
+socket.on("emptyDB", (empty) => {
+  alert(empty);
+});
 socket.on("sendCode", (data) => {
   const product = {
     companyName: data[0].company,
@@ -28,11 +31,13 @@ socket.on("sendCode", (data) => {
     countProduct[`${data[0].product_name}`] = 1;
     tag.innerHTML =
       tag.innerHTML +
-      `<li class="list-group-item" id="${data[0].product_name}">${
-        data[0].company
-      }, ${data[0].product_name}, ${data[0].price}, ${getProperty(
-        data[0].product_name
-      )}</li>`;
+      `<tr id="${data[0].product_name}">
+        <th scope="row">1</th>
+        <td>${data[0].company}</td> 
+        <td>${data[0].product_name}</td>
+        <td>${data[0].price}</td>
+        <td>${getProperty(data[0].product_name)}</td>
+      </tr>`;
     product.productNumber = product_Number;
     product.productCount = 1;
     sumPrice = sumPrice + product.price;
@@ -50,9 +55,12 @@ socket.on("sendCode", (data) => {
     if (overlap != 0) {
       plusProperty(data[0].product_name);
       var li = document.getElementById(`${data[0].product_name}`);
-      li.textContent = `${data[0].company}, ${data[0].product_name}, ${
-        data[0].price
-      }, ${getProperty(data[0].product_name)}`;
+      li.innerHTML = `
+      <th scope="row">${product_Number}</th>
+      <td>${data[0].company}</td> 
+      <td>${data[0].product_name}</td>
+      <td>${data[0].price}</td>
+      <td>${getProperty(data[0].product_name)}</td>`;
       product.productNumber = product_Number;
       product.productCount = getProperty(data[0].product_name);
       sumPrice = sumPrice + product.price;
@@ -63,11 +71,13 @@ socket.on("sendCode", (data) => {
       countProduct[`${data[0].product_name}`] = 1;
       tag.innerHTML =
         tag.innerHTML +
-        `<li class="list-group-item" id="${data[0].product_name}">${
-          data[0].company
-        }, ${data[0].product_name}, ${data[0].price},${getProperty(
-          data[0].product_name
-        )}</li>`;
+        `<tr id="${data[0].product_name}">
+          <th scope="row">${Object.values(countData).length + 1}</th>
+          <td>${data[0].company}</td> 
+          <td>${data[0].product_name}</td>
+          <td>${data[0].price}</td>
+          <td>${getProperty(data[0].product_name)}</td>
+        </tr>`;
       product.productNumber = Object.values(countData).length + 1;
       product.productCount = 1;
       sumPrice = sumPrice + product.price;
@@ -81,6 +91,8 @@ socket.on("sendCode", (data) => {
 var postdata = document.getElementById("postdata");
 
 postdata.addEventListener("click", () => {
+  var salesPrice = document.getElementById("salesPrice");
+  salesPrice.textContent = `결제금액 : ${sumPrice}`;
   tag.innerHTML = "";
   socket.emit("sendList", JSON.stringify(productList));
   productList = [];
@@ -92,9 +104,19 @@ postdata.addEventListener("click", () => {
   priceInfo.textContent = `${sumPrice}`;
 });
 
-var marcket = document.getElementById("sendMarcket");
+const showValue = (target) => {
+  const value = target.value;
+  socket.emit("setMarcket", value);
+  if (value === "") {
+    target.disabled = false;
+  } else {
+    target.disabled = true;
+  }
+};
 
-marcket.addEventListener("click", () => {
-  let input = document.getElementById("nickname").value;
-  socket.emit("setMarcket", input);
-});
+// var marcket = document.getElementById("sendMarcket");
+// marcket.addEventListener("click", () => {
+//   let input = document.getElementById("nickname");
+//   let nickname = input.options[input.selectedIndex].value;
+//   socket.emit("setMarcket", nickname);
+// });
