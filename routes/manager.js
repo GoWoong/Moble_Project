@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const connection = require("../dbConfig");
+const connection = require("../dbdata/dbConfig.js");
 const path = require("path");
 
 router.get("/", async (req, res) => {

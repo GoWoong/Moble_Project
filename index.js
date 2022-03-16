@@ -13,7 +13,7 @@ const fs = require("fs");
 const helmet = require("helmet");
 const path = require("path");
 const port = 4000;
-const connection = require("./dbConfig");
+const connection = require("./dbdata/dbConfig");
 const fileUpload = require("./routes/fileUpload");
 
 server.listen(4000, () => {
