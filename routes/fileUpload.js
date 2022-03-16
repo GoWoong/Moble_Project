@@ -1,64 +1,25 @@
 const router = require("express").Router();
 const path = require("path");
-const limits = {
-  fieldNameSize: 200, // 필드명 사이즈 최대값 (기본값 100bytes)
-  filedSize: 1024 * 1024, // 필드 사이즈 값 설정 (기본값 1MB)
-  fields: 2, // 파일 형식이 아닌 필드의 최대 개수 (기본 값 무제한)
-  fileSize: 16777216, //multipart 형식 폼에서 최대 파일 사이즈(bytes) "16MB 설정" (기본 값 무제한)
-  files: 10, //multipart 형식 폼에서 파일 필드 최대 개수 (기본 값 무제한)
-};
-const fileFilter = (req, file, callback) => {
-  const typeArray = file.mimetype.split("/");
-  const fileType = typeArray[1]; // 이미지 확장자 추출
-  //이미지 확장자 구분 검사
-  if (fileType == "jpg" || fileType == "jpeg" || fileType == "png") {
-    callback(null, true);
-  } else {
-    return callback(
-      { message: "*.jpg, *.jpeg, *.png 파일만 업로드가 가능합니다." },
-      false
-    );
-  }
-};
 const multer = require("multer");
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, "/puplic/images/");
-  },
-  filename: function (req, file, cb) {
-    const ext = path.extname(file.originalname);
-    cb(null, path.basename(file.originalname, ext) + "-" + Date.now() + ext);
-  },
-});
 const upload = multer({
-  storage: storage,
-  limits: limits, // 이미지 업로드 제한 설정
-  fileFilter: fileFilter, // 이미지 업로드 필터링 설정
+  storage: multer.diskStorage({
+    // 저장한공간 정보 : 하드디스크에 저장
+    destination(req, file, done) {
+      // 저장 위치
+      done(null, "uploads/"); // uploads라는 폴더 안에 저장
+    },
+    filename(req, file, done) {
+      // 파일명을 어떤 이름으로 올릴지
+      const ext = path.extname(file.originalname); // 파일의 확장자
+      done(null, path.basename(file.originalname, ext) + Date.now() + ext); // 파일이름 + 날짜 + 확장자 이름으로 저장
+    },
+  }),
+  limits: { fileSize: 5 * 1024 * 1024 }, // 5메가로 용량 제한
 });
-router.post("/single", upload.single("file"), (req, res, next) => {
-  const {
-    fieldname,
-    originalname,
-    encoding,
-    mimetype,
-    destination,
-    filename,
-    path,
-    size,
-  } = req.file;
-  const { name } = req.body;
 
-  console.log("body 데이터 : ", name);
-  console.log("폼에 정의된 필드명 : ", fieldname);
-  console.log("사용자가 업로드한 파일 명 : ", originalname);
-  console.log("파일의 엔코딩 타입 : ", encoding);
-  console.log("파일의 Mime 타입 : ", mimetype);
-  console.log("파일이 저장된 폴더 : ", destination);
-  console.log("destinatin에 저장된 파일 명 : ", filename);
-  console.log("업로드된 파일의 전체 경로 ", path);
-  console.log("파일의 바이트(byte 사이즈)", size);
-
-  res.json({ ok: true, data: "Single Upload Ok" });
+router.post("/single", upload.single("test_image"), (req, res, next) => {
+  console.log(req.file, req.body);
+  res.send("ok");
 });
 
 module.exports = router;
