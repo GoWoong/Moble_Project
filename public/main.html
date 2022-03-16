@@ -63,6 +63,10 @@
       td {
         border: solid 1px black;
       }
+      html,
+      body {
+        height: 100%;
+      }
     </style>
     <title>main-page</title>
   </head>
@@ -84,7 +88,7 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-lg-10" id="sales">
+        <div class="col-lg-10 col-sm-10" id="sales">
           <table class="table table-bordered">
             <thead>
               <tr>
@@ -98,11 +102,11 @@
             <tbody id="info"></tbody>
           </table>
         </div>
-        <div class="col-lg-10" id="price">
+        <div class="col-lg-10 col-sm-10" id="price">
           <div class="priceTable">가격</div>
           <div id="priceInfo" class="priceTable">0</div>
         </div>
-        <div class="col-lg-2">
+        <div class="col-lg-2 col-sm-2">
           <button
             id="postdata"
             type="button"
@@ -148,12 +152,12 @@
     </div>
     <div id="selectbar" class="container-fluid contents-wrap">
       <div class="row">
-        <div class="col-lg-3">지점명</div>
+        <div class="col-lg-3 col-sm-2">지점명</div>
       </div>
     </div>
     <div class="container-fluid contents-wrap">
       <div class="row">
-        <div class="col-lg-3">
+        <div class="col-lg-3 col-sm-3">
           <div class="input-group mb-3">
             <select
               class="form-select"

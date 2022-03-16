@@ -14,6 +14,8 @@ const helmet = require("helmet");
 const path = require("path");
 const port = 4000;
 const connection = require("./dbConfig");
+const fileUpload = require("./routes/fileUpload");
+
 server.listen(4000, () => {
   console.log("Server listening port", port);
 });
@@ -161,4 +163,5 @@ app.post("/api/test", async (req, res) => {
 });
 
 //프론트단에서
+app.use("/upload", fileUpload);
 app.use("/managerPage", manager);
