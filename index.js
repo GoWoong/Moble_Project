@@ -4,10 +4,7 @@ const http = require("http");
 const app = express();
 const bodyParser = require("body-parser");
 const server = http.createServer(app);
-const io = require("socket.io")(server, {
-  pingInterval: 10000,
-  pingTimeout: 5000,
-});
+const io = require("socket.io")(server);
 const manager = require("./routes/manager.js");
 const fs = require("fs");
 const helmet = require("helmet");
@@ -15,6 +12,8 @@ const path = require("path");
 const port = 4000;
 const connection = require("./dbdata/dbConfig");
 const fileUpload = require("./routes/fileUpload");
+const session = require("express-session");
+const FileStore = require("session-file-store")(session);
 
 server.listen(4000, () => {
   console.log("Server listening port", port);
@@ -43,7 +42,12 @@ app.use(helmet.referrerPolicy({ policy: "strict-origin-when-cross-origin" }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(express.static("public"));
+// 정적 파일 설정 (미들웨어) 3
+app.use(express.static(path.join(__dirname, "uploads")));
+app.use(express.static(path.join(__dirname, "public")));
+// ejs 설정 4
+app.set("views", __dirname + "/views");
+app.set("view engine", "ejs");
 
 app.get("/", (req, res) => {
   res.header("Access-Control-Allow-Origin", "*");

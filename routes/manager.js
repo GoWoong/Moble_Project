@@ -1,11 +1,133 @@
 const router = require("express").Router();
 const connection = require("../dbdata/dbConfig.js");
-const path = require("path");
+const session = require("express-session");
+const FileStore = require("session-file-store")(session); // 세션을 파일에 저장
+const cookieParser = require("cookie-parser");
+const fs = require("fs");
+
+router.use(
+  session({
+    secret: "project", // 데이터를 암호화 하기 위해 필요한 옵션
+    resave: false, // 요청이 왔을때 세션을 수정하지 않더라도 다시 저장소에 저장되도록
+    saveUninitialized: true, // 세션이 필요하면 세션을 실행시칸다(서버에 부담을 줄이기 위해)
+    cookie: { maxAge: 3600000, httpOnly: true },
+    store: new FileStore(), // 세션이 데이터를 저장하는 곳
+  })
+);
 
 router.get("/", async (req, res) => {
-  res.sendFile(path.join(__dirname, "../public/html/managerMain.html"));
+  if (req.session.is_logined == true) {
+    res.render("managerMain", {
+      is_logined: req.session.is_logined,
+      name: req.session.name,
+    });
+  } else {
+    res.render("login", {
+      is_logined: false,
+    });
+  }
 });
+router.post("/", (req, res) => {
+  const body = req.body;
+  const id = body.id;
+  const pwd = body.pwd;
 
+  connection.query(
+    "select count(*) cnt from user_info where id=? and pwd=?",
+    [id, pwd],
+    (err, data) => {
+      // 로그인 확인
+      // console.log(data[0]);
+      // console.log(id);
+      // console.log(data[0].id);
+      // console.log(data[0].pwd);
+      // console.log(id == data[0].id);
+      // console.log(pwd == data[0].pwd);
+      var cnt = data[0].cnt;
+      if (cnt == 1) {
+        console.log("로그인 성공");
+        // 세션에 추가
+        req.session.is_logined = true;
+        req.session.name = data.name;
+        req.session.id = data.id;
+        req.session.pwd = data.pwd;
+        req.session.save(function () {
+          // 세션 스토어에 적용하는 작업
+          res.render("managerMain", {
+            // 정보전달
+            name: data[0].name,
+            id: data[0].id,
+            phonenum: data[0].phonenum,
+            is_logined: true,
+          });
+        });
+      } else {
+        console.log("로그인 실패");
+        res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" });
+        res.write('<script>alert("일치하는 정보가 없습니다.")</script>');
+        res.write('<script>window.location="../managerPage"</script>');
+        res.end();
+      }
+    }
+  );
+});
+router.get("/admin", (req, res) => {
+  console.log("관리자페이지 작동");
+  console.log(req.session);
+});
+// 회원가입
+router.get("/register", (req, res) => {
+  console.log("회원가입 페이지");
+  res.render("register");
+});
+router.post("/register", (req, res) => {
+  console.log("회원가입 하는중");
+  const body = req.body;
+  const id = body.id;
+  const pwd = body.pwd;
+  const pwd_con = body.pwd_con;
+  const name = body.name;
+  const phonenum = body.phonenum;
+
+  connection.query("select * from user_info where id=?", [id], (err, data) => {
+    if (data.length == 0 && pwd == pwd_con) {
+      console.log("회원가입 성공");
+      connection.query(
+        "insert into user_info(name, phonenum, id, pwd) values(?,?,?,?)",
+        [name, phonenum, id, pwd]
+      );
+      res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" });
+      res.write('<script>alert("회원가입 되었습니다.")</script>');
+      res.write('<script>window.location="../managerPage/"</script>');
+      res.end();
+    } else {
+      console.log("회원가입 실패");
+      if (pwd != pwd_con) {
+        res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" });
+        res.write('<script>alert("비밀번호가 일치하지 않습니다.")</script>');
+        res.write('<script>window.location="../managerPage/register"</script>');
+        res.end();
+      } else {
+        res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" });
+        res.write('<script>alert("같은 아이디가 존재합니다.")</script>');
+        res.write('<script>window.location="../managerPage/register"</script>');
+        res.end();
+      }
+    }
+  });
+});
+// 로그아웃
+router.get("/logout", (req, res) => {
+  console.log("로그아웃 성공");
+  req.session.destroy(function (err) {
+    res.clearCookie("sid");
+    // 세션 파괴후 할 것들
+    res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" });
+    res.write('<script>alert("로그아웃 되었습니다.")</script>');
+    res.write('<script>window.location="../managerPage"</script>');
+    res.end();
+  });
+});
 router.get("/image", async (req, res) => {
   //저장된 이미지들을 표현할 계획이다.
 });
@@ -65,6 +187,17 @@ router.get("/sales", async (req, res) => {
   connection.query(sql6, async (error, rows) => {
     if (error) throw error;
     console.log(rows);
+    res.send(rows);
+  });
+});
+
+router.get("/cctv", async (req, res) => {
+  res.render("cctv");
+});
+router.get("/cctv/images", async (req, res) => {
+  const sql6 = `SELECT date,place,imagename FROM image_db;`;
+  connection.query(sql6, async (error, rows) => {
+    if (error) throw error;
     res.send(rows);
   });
 });

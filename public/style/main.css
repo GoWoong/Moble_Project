@@ -1,0 +1,77 @@
+.container-fluid {
+  width: 100%;
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+  text-align: center;
+}
+.navBar {
+  background-color: skyblue;
+  height: 100px;
+  margin-bottom: 60px;
+}
+input {
+  float: left;
+}
+#sales {
+  border: solid 1px black;
+  background-color: #d9f0f6;
+  height: 35rem;
+  padding: 0px;
+}
+#price {
+  border: solid 1px black;
+  background-color: #d9f0f6;
+  padding: 0px;
+}
+button {
+  margin-top: 20px;
+}
+.priceTable {
+  margin-bottom: 0px;
+  float: left;
+  width: 25%;
+}
+#selectbar {
+  margin-top: 40px;
+  text-align: left;
+}
+#postdata {
+  background-color: aquamarine;
+}
+th {
+  border: solid 1px black;
+}
+tr {
+  border-top: solid 1px black;
+  border-bottom: solid 1px black;
+}
+td {
+  border: solid 1px black;
+}
+html,
+body {
+  height: 100%;
+}
+li {
+  list-style: none;
+}
+a {
+  text-decoration: none;
+}
+ul {
+  padding: 0px;
+}
+h1 {
+  color: blue;
+  text-align: center;
+  line-height: 75px;
+  margin-bottom: 0px;
+}
+.menu {
+  float: right;
+}
+.menu a {
+  color: black;
+}

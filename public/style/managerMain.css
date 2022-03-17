@@ -1,0 +1,52 @@
+/*reset*/
+* {
+  margin: 0;
+  padding: 0;
+}
+li {
+  list-style: none;
+}
+a {
+  text-decoration: none;
+}
+
+.wrapper {
+  width: 1170px;
+  margin: 0 auto;
+}
+.clearfix {
+  content: "";
+  display: block;
+  clear: both;
+}
+
+header {
+  height: 75 px;
+  background-color: skyblue;
+  border: 1px solid #253342;
+  position: fixed;
+  width: 100%;
+  z-index: 9999;
+  top: 0;
+  left: 0;
+}
+
+/*상단 메뉴바 css*/
+h1 {
+  color: blue;
+  line-height: 75px;
+  float: center;
+  text-align: center;
+}
+.menu {
+  float: right;
+}
+.menu li {
+  float: left;
+}
+.menu a {
+  line-height: 75px;
+  color: black;
+  padding: 0 15px;
+  display: block;
+}

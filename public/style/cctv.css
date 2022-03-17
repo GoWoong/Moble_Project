@@ -1,0 +1,9 @@
+#cctv {
+  width: 100%;
+  height: 100%;
+}
+.navbar {
+  min-height: 50px;
+  margin-bottom: 20px;
+  border: 1px solid transparent;
+}

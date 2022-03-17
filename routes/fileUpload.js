@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const path = require("path");
 const multer = require("multer");
+const connection = require("../dbdata/dbConfig.js");
 const upload = multer({
   storage: multer.diskStorage({
     // 저장한공간 정보 : 하드디스크에 저장
@@ -17,9 +18,12 @@ const upload = multer({
   limits: { fileSize: 5 * 1024 * 1024 }, // 5메가로 용량 제한
 });
 
-router.post("/single", upload.single("test_image"), (req, res, next) => {
-  console.log(req.file, req.body);
-  res.send("ok");
+router.post("/single", upload.single("test_image"), (req, res) => {
+  const sql1 = `INSERT INTO image_db(date, place, imagename) VALUES(now(),"${req.file.path}","${req.file.filename}");`;
+  connection.query(sql1, async (error, rows) => {
+    if (error) throw error;
+  });
+  res.send("사진전송 완료");
 });
 
 module.exports = router;
