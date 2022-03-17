@@ -15,7 +15,7 @@ const upload = multer({
       done(null, path.basename(file.originalname, ext) + Date.now() + ext); // 파일이름 + 날짜 + 확장자 이름으로 저장
     },
   }),
-  limits: { fileSize: 5 * 1024 * 1024 }, // 5메가로 용량 제한
+  limits: { fileSize: 100 * 1024 * 1024 }, // 5메가로 용량 제한
 });
 
 router.post("/single", upload.single("test_image"), (req, res) => {

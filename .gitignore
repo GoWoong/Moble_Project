@@ -43,6 +43,7 @@ jspm_packages/
 uploads/
 database.json
 dbdata/
+sessions/
 
 # TypeScript v1 declaration files
 typings/

@@ -26,6 +26,7 @@ async function cardUpdate() {
           </div>
         </div>`;
   }
+  image = [];
 }
 var getimages = document.getElementById("getimages");
 getimages.addEventListener("click", () => {
