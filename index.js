@@ -50,6 +50,7 @@ app.set("views", __dirname + "/views");
 app.set("view engine", "ejs");
 
 app.get("/", (req, res) => {
+  res.header("Cache-Control", "no-cache, no-store, must-revalidate");
   res.header("Access-Control-Allow-Origin", "*");
   fs.readFile("./public/html/main.html", (err, data) => {
     if (err) throw err;

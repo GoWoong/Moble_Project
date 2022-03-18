@@ -6,4 +6,31 @@
   min-height: 50px;
   margin-bottom: 20px;
   border: 1px solid transparent;
+  height: 6rem;
+}
+.container-fluid h1 {
+  margin-left: 20px;
+  color: white;
+}
+#maindiv {
+  margin: 20px;
+}
+#buttondiv {
+  margin: 20px;
+}
+.btn {
+  margin: 10px;
+}
+#card {
+  margin: 20px;
+
+  overflow: hidden;
+}
+.card {
+  margin: 20px;
+
+  padding: 5px;
+  max-width: 300px;
+  max-height: 300px;
+  float: left;
 }

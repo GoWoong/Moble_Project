@@ -12,6 +12,7 @@ async function imagedata() {
 async function cardUpdate() {
   await imagedata();
   let card = document.getElementById("card");
+  card.innerHTML = "";
   for (let i in image) {
     card.innerHTML =
       card.innerHTML +

@@ -11,7 +11,7 @@ router.use(
     resave: false, // 요청이 왔을때 세션을 수정하지 않더라도 다시 저장소에 저장되도록
     saveUninitialized: true, // 세션이 필요하면 세션을 실행시칸다(서버에 부담을 줄이기 위해)
     cookie: { maxAge: 3600000, httpOnly: true },
-    store: new FileStore(), // 세션이 데이터를 저장하는 곳
+    store: new FileStore({ logFn: function () {} }), // 세션이 데이터를 저장하는 곳
   })
 );
 
@@ -192,8 +192,62 @@ router.get("/sales", async (req, res) => {
 });
 
 router.get("/cctv", async (req, res) => {
-  res.render("cctv");
+  if (req.session.is_logined == true) {
+    res.render("cctv", {
+      is_logined: req.session.is_logined,
+      name: req.session.name,
+    });
+  } else {
+    res.render("login", {
+      is_logined: false,
+    });
+  }
 });
+router.post("/cctv", (req, res) => {
+  const body = req.body;
+  const id = body.id;
+  const pwd = body.pwd;
+
+  connection.query(
+    "select count(*) cnt from user_info where id=? and pwd=?",
+    [id, pwd],
+    (err, data) => {
+      // 로그인 확인
+      // console.log(data[0]);
+      // console.log(id);
+      // console.log(data[0].id);
+      // console.log(data[0].pwd);
+      // console.log(id == data[0].id);
+      // console.log(pwd == data[0].pwd);
+      var cnt = data[0].cnt;
+      if (cnt == 1) {
+        console.log("로그인 성공");
+        // 세션에 추가
+        req.session.is_logined = true;
+        req.session.name = data.name;
+        req.session.id = data.id;
+        req.session.pwd = data.pwd;
+        req.session.save(function () {
+          // 세션 스토어에 적용하는 작업
+          res.render("cctv", {
+            // 정보전달
+            name: data[0].name,
+            id: data[0].id,
+            phonenum: data[0].phonenum,
+            is_logined: true,
+          });
+        });
+      } else {
+        console.log("로그인 실패");
+        res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" });
+        res.write('<script>alert("일치하는 정보가 없습니다.")</script>');
+        res.write('<script>window.location="../managerPage"</script>');
+        res.end();
+      }
+    }
+  );
+});
+
 router.get("/cctv/images", async (req, res) => {
   const sql6 = `SELECT date,place,imagename FROM image_db;`;
   connection.query(sql6, async (error, rows) => {
