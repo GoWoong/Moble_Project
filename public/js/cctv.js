@@ -1,6 +1,6 @@
 let image;
 async function imagedata() {
-  await fetch("http://localhost:4000/managerPage/cctv/images")
+  await fetch("http://192.168.0.79:4000/managerPage/cctv/images")
     .then(function (response) {
       return response.json();
     })

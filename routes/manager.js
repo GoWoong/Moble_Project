@@ -31,45 +31,40 @@ router.post("/", (req, res) => {
   const body = req.body;
   const id = body.id;
   const pwd = body.pwd;
-
-  connection.query(
-    "select count(*) cnt from user_info where id=? and pwd=?",
-    [id, pwd],
-    (err, data) => {
-      // 로그인 확인
-      // console.log(data[0]);
-      // console.log(id);
-      // console.log(data[0].id);
-      // console.log(data[0].pwd);
-      // console.log(id == data[0].id);
-      // console.log(pwd == data[0].pwd);
-      var cnt = data[0].cnt;
-      if (cnt == 1) {
-        console.log("로그인 성공");
-        // 세션에 추가
-        req.session.is_logined = true;
-        req.session.name = data.name;
-        req.session.id = data.id;
-        req.session.pwd = data.pwd;
-        req.session.save(function () {
-          // 세션 스토어에 적용하는 작업
-          res.render("managerMain", {
-            // 정보전달
-            name: data[0].name,
-            id: data[0].id,
-            phonenum: data[0].phonenum,
-            is_logined: true,
-          });
-        });
-      } else {
-        console.log("로그인 실패");
-        res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" });
-        res.write('<script>alert("일치하는 정보가 없습니다.")</script>');
-        res.write('<script>window.location="../managerPage"</script>');
-        res.end();
-      }
+  function isEmptyArr(arr) {
+    if (Array.isArray(arr) && arr.length === 0) {
+      return true;
     }
-  );
+    return false;
+  }
+  const sqlLogin = `select name, pwd, id from user_info where id="${id}" and pwd= "${pwd}"`;
+  connection.query(sqlLogin, async (error, rows) => {
+    if (error) throw error;
+    if (isEmptyArr(rows) == true) {
+      console.log("로그인 실패");
+      res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" });
+      res.write('<script>alert("아이디 및 비밀번호를 확인하세요.")</script>');
+      res.write('<script>window.location="../managerPage"</script>');
+      res.end();
+    } else {
+      console.log("로그인 성공");
+      req.session.is_logined = true;
+      req.session.name = rows[0].name;
+      req.session.id = rows[0].id;
+      req.session.pwd = rows[0].pwd;
+      console.log(rows[0].name);
+      req.session.save(function () {
+        // 세션 스토어에 적용하는 작업
+        res.render("managerMain", {
+          // 정보전달
+          name: rows[0].name,
+          id: rows[0].id,
+          phonenum: rows[0].phonenum,
+          is_logined: true,
+        });
+      });
+    }
+  });
 });
 router.get("/admin", (req, res) => {
   console.log("관리자페이지 작동");
