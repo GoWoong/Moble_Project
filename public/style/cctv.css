@@ -23,14 +23,16 @@
 }
 #card {
   margin: 20px;
-
   overflow: hidden;
 }
 .card {
-  margin: 20px;
-
-  padding: 5px;
   max-width: 300px;
   max-height: 300px;
+  padding: 5px;
   float: left;
+}
+#card img {
+  width: 290px;
+  height: 200px;
+  object-fit: cover;
 }

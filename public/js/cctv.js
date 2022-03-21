@@ -1,6 +1,6 @@
 let image;
 async function imagedata() {
-  await fetch("http://192.168.0.79:4000/managerPage/cctv/images")
+  await fetch("http://localhost:4000/managerPage/cctv/images")
     .then(function (response) {
       return response.json();
     })
@@ -32,4 +32,12 @@ async function cardUpdate() {
 var getimages = document.getElementById("getimages");
 getimages.addEventListener("click", () => {
   cardUpdate();
+});
+
+var cc = document.getElementById("cc");
+cc.addEventListener("click", () => {
+  //window.location.replace("http://192.168.0.199:8091/?action=stream");
+  var link = "http://192.168.0.199:8091/?action=stream";
+  var popOption = "_blank";
+  window.open(link, popOption);
 });
