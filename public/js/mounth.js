@@ -5,6 +5,7 @@ const showValue = (target) => {
   cardUpdate();
 };
 let mounthData;
+let sumMounthPrice = 0;
 async function imagedata() {
   await fetch(
     `http://localhost:4000/managerPage/money/mounth?data=${sendMounthData}`
@@ -19,25 +20,22 @@ async function imagedata() {
 }
 async function cardUpdate() {
   await imagedata();
-  //let mounth = document.getElementById("mounth");
-  // card.innerHTML = "";
-  // for (let i in image) {
-  //   card.innerHTML =
-  //     card.innerHTML +
-  //     `
-  //   <div class="card" style="width: 18rem">
-  //         <img src="/${image[i].imagename}" class="card-img-top" alt "이미지"/>
-  //         <div class="card-body">
-  //           <h5 class="card-title">${image[i].imagename}</h5>
-  //           <p class="card-text">
-  //             촬영시각 : ${image[i].date}
-  //           </p>
-  //         </div>
-  //       </div>`;
-  // }
-  // image = [];
+  let mounth = document.getElementById("tbcreate");
+  mounth.innerHTML = "";
+  for (let i in mounthData) {
+    mounth.innerHTML =
+      mounth.innerHTML +
+      `
+      <tr class='table_data'>
+       <td>${mounthData[i].day}</td>
+       <td>${mounthData[i].salesprice}</td>
+      </tr>`;
+    sumMounthPrice = sumMounthPrice + Number(mounthData[i].salesprice);
+  }
+  let sum = document.getElementById("sum");
+  sum.innerHTML = `<tr>
+    <td>${sumMounthPrice}</td>
+   </tr>`;
+  mounthData = [];
+  sumMounthPrice = 0;
 }
-// var mounth = document.getElementById("mounth");
-// getimages.addEventListener("click", () => {
-//   cardUpdate();
-// });

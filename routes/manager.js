@@ -90,14 +90,25 @@ router.get("/money", (req, res) => {
   }
 });
 router.get("/money/mounth", (req, res) => {
-  let mounthNumber = req.query.data;
-  let sqlMounth;
-  if (Number(mounthNumber) > 12 && Number(mounthNumber) < 0) {
+  let selectMounth = "0" + req.query.data;
+  var now = new Date(); // 현재 날짜 및 시간
+  var year = now.getFullYear(); // 연도
+  var selectYear = String(year);
+  let mounthNumber = Number(req.query.data);
+  let lastday = new Date(year, mounthNumber, 0).getDate();
+  if (mounthNumber > 12 && mounthNumber < 0) {
     res.send("잘못된 달을 조회했습니다.");
   }
-  if (Number(mounthNumber) === 12) {
+  if (mounthNumber == 9) {
+    nextMounth = "10";
+  } else if (mounthNumber >= 10) {
+    selectMounth = req.query.data;
   }
-  //const sqlMounth = `select date_format(salesdate, '%m-%d')day, sum(salesprice) salesprice from product_info where date(salesdate) between '2022-03-11' and '2022-04-01' group by day;`;
+  let sqlMounth = `select date_format(salesdate, '%m-%d')day, sum(salesprice) salesprice from product_info where date(salesdate) between '${selectYear}-${selectMounth}-01' and '${selectYear}-${selectMounth}-${lastday}' group by day;`;
+  connection.query(sqlMounth, (error, rows) => {
+    if (error) throw error;
+    res.send(rows);
+  });
 });
 router.post("/sales", (req, res) => {
   fs.readFile("./views/sales.ejs", "utf8", function (err, data) {

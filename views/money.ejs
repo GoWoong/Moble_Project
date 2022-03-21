@@ -45,12 +45,15 @@
           </ul>
         </div>
       </div>
+      <div>
         <table border="1" class="manager_table"></table>
-          <tbody class="tbcreate2">
+          <thead>
             <tr>
               <th>일</th>
               <th>매출</th>
             </tr>
+          </thead>
+          <tbody>
             <form>
               <select onchange="showValue(this)" id="mounthSelect" name = "mounth">
                 <option value = "none">===월선택===</option>
@@ -70,9 +73,23 @@
             </form>
           </tbody>
         </table>
-        <div>
-        </div>
+      </div>
       <div>
+        <table>
+          <thead>
+            <tr>
+              <th></th>
+              <th >날자</th>
+              <th >요일 매출</th>
+            </tr>
+          </thead>
+          <tbody id="tbcreate">
+
+          </tbody>
+          <tbody id="sum">
+          </tbody>
+        </table>
+      </div>
     </nav>
     <form action="/managerPage/logout">
       <script>
