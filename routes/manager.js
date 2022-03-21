@@ -66,6 +66,40 @@ router.post("/", (req, res) => {
     }
   });
 });
+router.post("/inventory", (req, res) => {
+  fs.readFile("./views/inventory.ejs", "utf8", function (err, data) {
+    connection.query("select * from registration_db", function (err, results) {
+      if (err) {
+        console.log(err);
+      } else {
+        res.json(results);
+      }
+    });
+  });
+});
+router.post("/money", (req, res) => {
+  fs.readFile("./views/money.ejs", "utf8", function (err, data) {
+    connection.query("select * from product_info", function (err, results) {
+      if (err) {
+        console.log(err);
+      } else {
+        res.json(results);
+      }
+    });
+  });
+});
+router.post("/sales", (req, res) => {
+  fs.readFile("./views/sales.ejs", "utf8", function (err, data) {
+    connection.query("select * from product_info", function (err, results) {
+      if (err) {
+        console.log(err);
+      } else {
+        res.json(results);
+      }
+    });
+  });
+});
+
 router.get("/admin", (req, res) => {
   console.log("관리자페이지 작동");
   console.log(req.session);
@@ -128,12 +162,20 @@ router.get("/image", async (req, res) => {
 });
 
 router.get("/manageProduct", async (req, res) => {
-  const sql5 = `SELECT product_name, country, company, 상품설명, 상품분류 , 원가, price, 갯수 FROM registration_db;`;
-  connection.query(sql5, async (error, rows) => {
-    if (error) throw error;
-    console.log(rows);
-    res.send(rows);
-  });
+  if (req.session.is_logined) {
+    const sql5 = `SELECT product_name, country, company, 상품설명, 상품분류 , 원가, price, 갯수 FROM registration_db;`;
+    connection.query(sql5, async (error, rows) => {
+      if (error) throw error;
+      console.log(rows);
+      res.send(rows);
+    });
+  } else {
+    req.session.preUrl = req.originalUrl;
+    res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" });
+    res.write('<script>alert("로그인 하십시오")</script>');
+    res.write('<script>window.location="../managerPage"</script>');
+    res.end();
+  }
 });
 
 router.post("/registration", async (req, res) => {
@@ -178,12 +220,20 @@ router.post("/registration", async (req, res) => {
 });
 
 router.get("/sales", async (req, res) => {
-  const sql6 = `SELECT * FROM product_info;`;
-  connection.query(sql6, async (error, rows) => {
-    if (error) throw error;
-    console.log(rows);
-    res.send(rows);
-  });
+  if (req.session.is_logined) {
+    const sql6 = `SELECT * FROM product_info;`;
+    connection.query(sql6, async (error, rows) => {
+      if (error) throw error;
+      console.log(rows);
+      res.send(rows);
+    });
+  } else {
+    req.session.preUrl = req.originalUrl;
+    res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" });
+    res.write('<script>alert("로그인 하십시오")</script>');
+    res.write('<script>window.location="../managerPage"</script>');
+    res.end();
+  }
 });
 
 router.get("/cctv", async (req, res) => {

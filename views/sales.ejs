@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>주문내역</title>
+</head>
+<body>
+  <h1>주문내역</h1>
+  <table border="1">
+    <tr>
+      <th>구매시간</th>
+      <th>총 가격</th>
+      <th>구매한 물품</th>
+    </tr>
+    <% data.forEach(function (item, index) { %>
+    <tr>
+      <td><%= item.salesdate %></td>
+      <td><%= item.salesdate %></td>
+      <td><%= item.salesprice %></td>
+    </tr>
+    <% }); %>
+  </table>
+</body>
+</html>
