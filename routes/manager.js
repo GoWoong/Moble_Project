@@ -77,16 +77,27 @@ router.post("/inventory", (req, res) => {
     });
   });
 });
-router.post("/money", (req, res) => {
-  fs.readFile("./views/money.ejs", "utf8", function (err, data) {
-    connection.query("select * from product_info", function (err, results) {
-      if (err) {
-        console.log(err);
-      } else {
-        res.json(results);
-      }
+router.get("/money", (req, res) => {
+  if (req.session.is_logined == true) {
+    res.render("money", {
+      is_logined: req.session.is_logined,
+      name: req.session.name,
     });
-  });
+  } else {
+    res.render("login", {
+      is_logined: false,
+    });
+  }
+});
+router.get("/money/mounth", (req, res) => {
+  let mounthNumber = req.query.data;
+  let sqlMounth;
+  if (Number(mounthNumber) > 12 && Number(mounthNumber) < 0) {
+    res.send("잘못된 달을 조회했습니다.");
+  }
+  if (Number(mounthNumber) === 12) {
+  }
+  //const sqlMounth = `select date_format(salesdate, '%m-%d')day, sum(salesprice) salesprice from product_info where date(salesdate) between '2022-03-11' and '2022-04-01' group by day;`;
 });
 router.post("/sales", (req, res) => {
   fs.readFile("./views/sales.ejs", "utf8", function (err, data) {

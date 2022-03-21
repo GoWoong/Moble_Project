@@ -1,26 +1,88 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>매출관리</title>
-</head>
-<body>
-  <h1>매출관리</h1>
-  <table border="1">
-    <tr>
-      <th>일</th>
-      <th>월</th>
-      <th>매출내역</th>
-    </tr>
-    <% data.forEach(function (item, index) { %>
-    <tr>
-      <td><%= item.salesdate %></td>
-      <td><%= item.salesprice %></td>
-      <td><%= item.salesproduct %></td>
-    </tr>
-    <% }); %>
-  </table>
-</body>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>cctv</title>
+    <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <!-- Latest compiled and minified CSS -->
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"
+    />
+    <!-- Optional theme -->
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css"
+    />
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="/style/cctv.css" />
+  </head>
+  <body>
+    <!-- nav 상단 고정-->
+    <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <h1>GS24</h1>
+        </div>
+        <!-- 네비게이션 메뉴 -->
+        <div id="navbar" class="navbar-collapse collapse" aria-expanded="false">
+          <ul class="nav navbar-nav navbar-right">
+            <!-- <button onclick="window.open('invention.html')">재고관리</button > -->
+            <li role="presentation"><a href="/managerPage">홈</a></li>
+            <li role="presentation"><a>재고관리</a></li>
+            <li role="presentation"><a>매출관리</a></li>
+            <li role="presentation"><a>주문내역</a></li>
+            <li role="presentation">
+              <a href="/managerPage/cctv">cctv</a>
+            </li>
+            <li><%=name%>님</li>
+            <li role="presentation">
+              <a href="/managerPage/logout">로그아웃</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+        <table border="1" class="manager_table"></table>
+          <tbody class="tbcreate2">
+            <tr>
+              <th>일</th>
+              <th>매출</th>
+            </tr>
+            <form>
+              <select onchange="showValue(this)" id="mounthSelect" name = "mounth">
+                <option value = "none">===월선택===</option>
+                <option value = "1">1월</option>
+                <option value = "2">2월</option>
+                <option value = "3">3월</option>
+                <option value = "4">4월</option>
+                <option value = "5">5월</option>
+                <option value = "6">6월</option>
+                <option value = "7">7월</option>
+                <option value = "8">8월</option>
+                <option value = "9">9월</option>
+                <option value = "10">10월</option>
+                <option value = "11">11월</option>
+                <option value = "12">12월</option>
+              </select>
+            </form>
+          </tbody>
+        </table>
+        <div>
+        </div>
+      <div>
+    </nav>
+    <form action="/managerPage/logout">
+      <script>
+        window.history.forward();
+        function noBack() {
+          window.history.forward();
+        }
+      </script>
+    </form>
+    <script src="/js/mounth.js"></script>
+    </script>
+  </body>
 </html>
