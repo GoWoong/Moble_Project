@@ -2,6 +2,10 @@
 <html lang="ko">
   <head>
     <meta charset="UTF-8" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="upgrade-insecure-requests"
+    />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!-- CSS -->
     <link rel="stylesheet" href="/style/managerMain.css" />
@@ -30,10 +34,16 @@
         <div id="navbar" class="navbar-collapse collapse" aria-expanded="false">
           <ul class="nav navbar-nav navbar-right">
             <!-- <button onclick="window.open('invention.html')">재고관리</button > -->
-            <li role="presentation"><a href="#">홈</a></li>
-            <li role="presentation"><button id="test1">재고관리</button></li>
-                <li role="presentation"><a href="/managerPage/money">매출관리</a></li>
-                <li role="presentation"><button id="test3">주문내역</a></li>
+            <li role="presentation"><a href="">홈</a></li>
+            <li role="presentation">
+              <a href="/managerPage/inventory">재고관리</a>
+            </li>
+            <li role="presentation">
+              <a href="/managerPage/money">매출관리</a>
+            </li>
+            <li role="presentation">
+              <a a href="/managerPage/sales">주문내역</a>
+            </li>
             <li role="presentation">
               <a href="/managerPage/cctv">cctv</a>
             </li>
@@ -45,122 +55,6 @@
         </div>
       </div>
     </nav>
-    <script
-src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.2/dist/js/bootstrap.bundle.min.js"
-integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
-crossorigin="anonymous"
-></script>
-<form action="/managerPage/logout">
-  <script>
-      window.history.forward();
-      function noBack() {
-          window.history.forward();
-      }
-  </script>
-</form>
-<div class="test1">
-<table border="1" class="manager_table">
-    <tbody class="tbcreate1">
-    <tr>
-      <th>회사명</th>
-      <th>상품명</th>
-      <th>원가</th>
-      <th>가격</th>
-      <th>갯수</th>
-    </tr>
-    </tbody>
-  </table>
-</div>
-<div class="test2">
-    <table border="1">
-        <tr>
-          
-        </tr>
-    </table>
-</div>
-<div class="test3">
-    <table border="1" class="manager_table">
-        <tbody class="tbcreate2">
-        <tr>
-          <th>구매 시간</th>
-          <th>총 가격</th>
-          <th>구매 목록</th>
-        </tr>
-        </tbody>
-      </table>
-    </div>
-<script>
-    $('.test1').hide();
-    $('.test2').hide();
-    $('.test3').hide();
-
-    $('#test1').on('click', function(){
-        $('.test1').show();
-        $('.test2').hide();
-        $('.test3').hide();
-    })
-    $('#test2').on('click', function(){
-        $('.test1').hide();
-        $('.test2').show();
-        $('.test3').hide();
-    })
-
-    $('#test3').on('click', function(){
-        $('.test1').hide();
-        $('.test2').hide();
-        $('.test3').show();
-    })
-$(document).ready(function(){
-    $.ajax({
-        url : "managerPage/inventory",
-        type : "post",
-        dataType : 'json',
-        async : false,
-        success : function(results){
-            for(var i = 0; i < results.length; i++){
-                var insertTr = "";
-  
-                insertTr += "<tr class='table_data'>";
-                insertTr += "<td>" + results[i].company + "</td>";
-                insertTr += "<td>" + results[i].product_name +"</td>";
-                insertTr += "<td>" + results[i].원가 + "</td>";
-                insertTr += "<td>" + results[i].price + "</td>";
-                insertTr += "<td>" + results[i].갯수 + "</td>";
-                insertTr += "</tr>";
-
-                $(".tbcreate1").append(insertTr);
-            }
-        },
-        error : function(){
-            alert("서버요청실패");
-        }
-    });
-});
-
-$(document).ready(function(){
-    $.ajax({
-        url : "managerPage/sales",
-        type : "post",
-        dataType : 'json',
-        async : false,
-        success : function(results){
-            for(var i = 0; i < results.length; i++){
-                var insertTr = "";
-  
-                insertTr += "<tr class='table_data'>";
-                insertTr += "<td>" + results[i].salesdate + "</td>";
-                insertTr += "<td>" + results[i].salesprice +"</td>";
-                insertTr += "<td>" + results[i].salesproduct + "</td>";
-                insertTr += "</tr>";
-
-                $(".tbcreate2").append(insertTr);
-            }
-        },
-        error : function(){
-            alert("서버요청실패");
-        }
-    });
-});
-</script>
+    <form action="/managerPage/logout"></form>
   </body>
 </html>

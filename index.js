@@ -9,6 +9,7 @@ const manager = require("./routes/manager.js");
 const fs = require("fs");
 const helmet = require("helmet");
 const path = require("path");
+const nocache = require("nocache");
 const port = 4000;
 const connection = require("./dbdata/dbConfig");
 const fileUpload = require("./routes/fileUpload");
@@ -38,6 +39,7 @@ function dataReset() {
 }
 
 app.use(cors());
+app.use(nocache());
 app.use(helmet.referrerPolicy({ policy: "strict-origin-when-cross-origin" }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));

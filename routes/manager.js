@@ -66,16 +66,32 @@ router.post("/", (req, res) => {
     }
   });
 });
-router.post("/inventory", (req, res) => {
-  fs.readFile("./views/inventory.ejs", "utf8", function (err, data) {
-    connection.query("select * from registration_db", function (err, results) {
-      if (err) {
-        console.log(err);
-      } else {
-        res.json(results);
-      }
+router.get("/inventory", (req, res) => {
+  if (req.session.is_logined == true) {
+    res.render("inventory", {
+      is_logined: req.session.is_logined,
+      name: req.session.name,
     });
-  });
+  } else {
+    res.render("login", {
+      is_logined: false,
+    });
+  }
+});
+router.post("/inventory", (req, res) => {
+  if (req.session.is_logined) {
+    const sql6 = "select * from registration_db";
+    connection.query(sql6, async (error, rows) => {
+      if (error) throw error;
+      res.send(rows);
+    });
+  } else {
+    req.session.preUrl = req.originalUrl;
+    res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" });
+    res.write('<script>alert("로그인 하십시오")</script>');
+    res.write('<script>window.location="../managerPage"</script>');
+    res.end();
+  }
 });
 router.get("/money", (req, res) => {
   if (req.session.is_logined == true) {
@@ -110,16 +126,34 @@ router.get("/money/mounth", (req, res) => {
     res.send(rows);
   });
 });
-router.post("/sales", (req, res) => {
-  fs.readFile("./views/sales.ejs", "utf8", function (err, data) {
-    connection.query("select * from product_info", function (err, results) {
-      if (err) {
-        console.log(err);
-      } else {
-        res.json(results);
-      }
+
+router.get("/sales", async (req, res) => {
+  if (req.session.is_logined == true) {
+    res.render("sales", {
+      is_logined: req.session.is_logined,
+      name: req.session.name,
     });
-  });
+  } else {
+    res.render("login", {
+      is_logined: false,
+    });
+  }
+});
+
+router.post("/sales", (req, res) => {
+  if (req.session.is_logined) {
+    const sql6 = `SELECT * FROM product_info;`;
+    connection.query(sql6, async (error, rows) => {
+      if (error) throw error;
+      res.send(rows);
+    });
+  } else {
+    req.session.preUrl = req.originalUrl;
+    res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" });
+    res.write('<script>alert("로그인 하십시오")</script>');
+    res.write('<script>window.location="../managerPage"</script>');
+    res.end();
+  }
 });
 
 router.get("/admin", (req, res) => {
@@ -179,10 +213,6 @@ router.get("/logout", (req, res) => {
     res.end();
   });
 });
-router.get("/image", async (req, res) => {
-  //저장된 이미지들을 표현할 계획이다.
-});
-
 router.get("/manageProduct", async (req, res) => {
   if (req.session.is_logined) {
     const sql5 = `SELECT product_name, country, company, 상품설명, 상품분류 , 원가, price, 갯수 FROM registration_db;`;
@@ -241,23 +271,6 @@ router.post("/registration", async (req, res) => {
   res.send("성공적으로 쿼리했습니다.");
 });
 
-router.get("/sales", async (req, res) => {
-  if (req.session.is_logined) {
-    const sql6 = `SELECT * FROM product_info;`;
-    connection.query(sql6, async (error, rows) => {
-      if (error) throw error;
-      console.log(rows);
-      res.send(rows);
-    });
-  } else {
-    req.session.preUrl = req.originalUrl;
-    res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" });
-    res.write('<script>alert("로그인 하십시오")</script>');
-    res.write('<script>window.location="../managerPage"</script>');
-    res.end();
-  }
-});
-
 router.get("/cctv", async (req, res) => {
   if (req.session.is_logined == true) {
     res.render("cctv", {
@@ -279,13 +292,6 @@ router.post("/cctv", (req, res) => {
     "select count(*) cnt from user_info where id=? and pwd=?",
     [id, pwd],
     (err, data) => {
-      // 로그인 확인
-      // console.log(data[0]);
-      // console.log(id);
-      // console.log(data[0].id);
-      // console.log(data[0].pwd);
-      // console.log(id == data[0].id);
-      // console.log(pwd == data[0].pwd);
       var cnt = data[0].cnt;
       if (cnt == 1) {
         console.log("로그인 성공");

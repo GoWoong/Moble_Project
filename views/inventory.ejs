@@ -2,30 +2,101 @@
 <html lang="ko">
   <head>
     <meta charset="UTF-8" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="upgrade-insecure-requests"
+    />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>재고관리</title>
+    <!-- CSS -->
+    <link rel="stylesheet" href="/style/managerMain.css" />
+    <!-- 제이쿼리 -->
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css"
+    />
+    <!-- 합쳐지고 최소화된 최신 자바스크립트 -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+    <title>재고내역</title>
   </head>
   <body>
-    <h1>재고관리</h1>
-    <table border="1">
-      <tr>
-        <th>회사명</th>
-        <th>상품명</th>
-        <th>원가</th>
-        <th>가격</th>
-        <th>갯수</th>
-        <th>상품분류</th>
-      </tr>
-      <% data.forEach(function (item, index) { %>
-      <tr>
-        <td><%= item.company %></td>
-        <td><%= item.product_name %></td>
-        <td><%= item.원가 %></td>
-        <td><%= item.price %></td>
-        <td><%= item.갯수 %></td>
-      </tr>
-      <% }); %>
-    </table>
+    <!-- nav 상단 고정-->
+    <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <h1>GS24</h1>
+        </div>
+        <!-- 네비게이션 메뉴 -->
+        <div id="navbar" class="navbar-collapse collapse" aria-expanded="false">
+          <ul class="nav navbar-nav navbar-right">
+            <!-- <button onclick="window.open('invention.html')">재고관리</button > -->
+            <li role="presentation"><a href="/managerPage">홈</a></li>
+            <li role="presentation">
+              <a href="">재고관리</a>
+            </li>
+            <li role="presentation">
+              <a href="/managerPage/money">매출관리</a>
+            </li>
+            <li role="presentation">
+              <a a href="/managerPage/sales">주문내역</a>
+            </li>
+            <li role="presentation">
+              <a href="/managerPage/cctv">cctv</a>
+            </li>
+            <li><%=name%>님</li>
+            <li role="presentation">
+              <a href="/managerPage/logout">로그아웃</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <form action="/managerPage/logout"></form>
+    <div class="test1">
+      <table border="1" class="manager_table">
+        <thead>
+          <tr>
+            <th>회사명</th>
+            <th>상품명</th>
+            <th>원가</th>
+            <th>가격</th>
+            <th>갯수</th>
+          </tr>
+        </thead>
+        <tbody class="tbcreate1"></tbody>
+      </table>
+    </div>
+    <script>
+      window.onload = function () {
+        $.ajax({
+          url: "inventory",
+          type: "post",
+          dataType: "json",
+          async: false,
+          success: function (results) {
+            for (var i = 0; i < results.length; i++) {
+              var insertTr = "";
+
+              insertTr += "<tr class='table_data'>";
+              insertTr += "<td>" + results[i].company + "</td>";
+              insertTr += "<td>" + results[i].product_name + "</td>";
+              insertTr += "<td>" + results[i].원가 + "</td>";
+              insertTr += "<td>" + results[i].price + "</td>";
+              insertTr += "<td>" + results[i].갯수 + "</td>";
+              insertTr += "</tr>";
+
+              $(".tbcreate1").append(insertTr);
+            }
+          },
+          error: function () {
+            alert("서버요청실패");
+          },
+        });
+      };
+    </script>
   </body>
 </html>
