@@ -2,6 +2,7 @@
   border: 0;
   padding: 0;
 }
+
 li {
   list-style: none;
 }
@@ -42,6 +43,7 @@ button {
   max-height: 300px;
   padding: 5px;
   float: left;
+  overflow: auto;
 }
 #card img {
   width: 290px;
