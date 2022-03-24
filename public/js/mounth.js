@@ -27,6 +27,7 @@ async function cardUpdate() {
       mounth.innerHTML +
       `
       <tr class='table_data'>
+       <td></td>
        <td>${mounthData[i].day}</td>
        <td>${mounthData[i].salesprice}</td>
       </tr>`;
@@ -34,6 +35,7 @@ async function cardUpdate() {
   }
   let sum = document.getElementById("sum");
   sum.innerHTML = `<tr>
+    <td>월 매출</td>
     <td>${sumMounthPrice}</td>
    </tr>`;
   mounthData = [];

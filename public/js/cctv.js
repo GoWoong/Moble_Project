@@ -17,11 +17,11 @@ async function cardUpdate() {
     card.innerHTML =
       card.innerHTML +
       `
-    <div class="card" style="width: 18rem">
-          <img src="/${image[i].imagename}" class="card-img-top" alt "이미지"/>
-          <div class="card-body">
-            <h5 class="card-title">${image[i].imagename}</h5>
-            <p class="card-text">
+    <div class="card">
+          <img src="/${image[i].imagename}" alt "이미지" style="width:400px; height:300px;"/>
+          <div>
+            <h5>${image[i].imagename}</h5>
+            <p>
               촬영시각 : ${image[i].date}
             </p>
           </div>

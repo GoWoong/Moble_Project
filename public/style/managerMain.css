@@ -1,15 +1,19 @@
 /*reset*/
 * {
-  margin: 0;
+  border: 0;
   padding: 0;
+  font-family: "Do Hyeon", sans-serif;
+  font-size: 18px;
 }
+#log,
 li {
   list-style: none;
+  float: left;
 }
+
 a {
   text-decoration: none;
 }
-
 .wrapper {
   width: 1170px;
   margin: 0 auto;
@@ -20,79 +24,63 @@ a {
   clear: both;
 }
 
-header {
-  height: 75 px;
-  background-color: skyblue;
-  border: 1px solid #253342;
-  position: fixed;
-  width: 100%;
-  z-index: 9999;
-  top: 0;
-  left: 0;
+#name {
+  display: block;
+  padding: 0;
+  padding-left: 15px;
 }
-
-/*상단 메뉴바 css*/
-h1 {
-  color: blue;
-  line-height: 75px;
-  float: left;
-  text-align: center;
-}
-.menu {
+#user {
+  margin-right: 10px;
+  margin-top: 10px;
   float: right;
 }
-.menu li {
-  float: left;
-}
-.menu a {
-  line-height: 75px;
+/*상단 메뉴바 css*/
+
+menu li,
+a {
   color: black;
-  padding: 0 15px;
-  display: block;
 }
 
-.test1,
-.test2,
-.test3 {
-  margin-top: 90px;
-  display: flex;
-  width: 100%;
-  height: 830px;
-}
-
-#test:hover {
-  cursor: pointer;
-}
-
-button {
-  border: none;
-  line-height: 75px;
-  color: black;
-  padding: 0 15px;
-  display: block;
-  background-color: rgb(253, 253, 253);
-  padding-top: 15px;
-}
 .manager_table {
   width: 100%;
   table-layout: fixed;
 }
 
 th {
+  background: linear-gradient(to left, white, rgba(135, 207, 235, 0.37));
   height: 40px;
   table-layout: fixed;
-  border: 2px solid black;
-  border-right: 1px solid black;
-  border-left: 1px solid black;
-}
-
-.manager_table {
-  width: 100%;
-  height: 50px;
-  border: 2px solid black;
+  border: solid 1px black;
 }
 
 .table_data {
+  background: linear-gradient(to left, white, rgba(135, 207, 235, 0.37));
   width: 100%;
   height: 40px;
+}
+#navbar {
+  float: right;
+}
+.container {
+  margin-right: 0px;
+}
+.na {
+  background-color: skyblue;
+  border: solid 1px black;
+}
+
+.tbcreate3 {
+  border: solid 1px black;
+}
+tr {
+  border: solid 1px black;
+}
+td {
+  border: solid 1px black;
+}
+thead {
+  border-top: solid 1px black;
+}
+tbody {
+  border-top: solid 1px black;
 }
